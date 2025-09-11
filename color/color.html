@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Color Changer</title>
+  <style>
+    body {
+      transition: background-color 0.5s ease;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      padding: 50px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .color-display {
+      margin-top: 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .note {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎨 Dynamic Background Color Changer</h1>
+
+  <button class="btn" onclick="setColor('lightblue')">Light Blue</button>
+  <button class="btn" onclick="setColor('lightgreen')">Light Green</button>
+  <button class="btn" onclick="setColor('lavender')">Lavender</button>
+  <button class="btn" onclick="randomColor()">🎲 Random Color</button>
+  <button class="btn" onclick="resetColor()">🔄 Reset</button>
+  <button class="btn" onclick="toggleAuto()">⏱️ Toggle Auto Mode</button>
+
+  <div class="color-display" id="colorDisplay">Current Color: Default</div>
+
+  <div class="note">💡 Tip: Press <strong>Spacebar</strong> to randomize the color instantly!</div>
+
+  <script>
+    const body = document.body;
+    const colorDisplay = document.getElementById("colorDisplay");
+    let autoMode = false;
+    let autoInterval = null;
+
+    function setColor(name) {
+      body.style.backgroundColor = name;
+      updateColorDisplay(name);
+    }
+
+    function randomColor() {
+      const red = Math.floor(Math.random() * 256);
+      const green = Math.floor(Math.random() * 256);
+      const blue = Math.floor(Math.random() * 256);
+
+      const color = `rgb(${red}, ${green}, ${blue})`;
+      body.style.backgroundColor = color;
+      updateColorDisplay(color);
+    }
+
+    function updateColorDisplay(color) {
+      colorDisplay.textContent = `Current Color: ${color}`;
+    }
+
+    function resetColor() {
+      body.style.backgroundColor = "white";
+      updateColorDisplay("Default (white)");
+    }
+
+    function toggleAuto() {
+      if (!autoMode) {
+        autoMode = true;
+        autoInterval = setInterval(randomColor, 2000); // Change color every 2 sec
+        alert("🟢 Auto mode ON. Background will change every 2 seconds.");
+      } else {
+        autoMode = false;
+        clearInterval(autoInterval);
+        alert("🔴 Auto mode OFF.");
+      }
+    }
+
+    // Bonus: Spacebar = random color
+    document.addEventListener("keydown", function (e) {
+      if (e.code === "Space") {
+        randomColor();
+      }
+    });
+  </script>
+</body>
+</html>
